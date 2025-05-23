@@ -1,1 +1,1 @@
-# git-hub-data-api
+# git-hub-data-api consumer made in Go / Gin
