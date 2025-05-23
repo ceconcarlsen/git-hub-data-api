@@ -1,6 +1,7 @@
 package main
 
 import (
+	"fmt"
 	"net/http"
 
 	"github.com/gin-gonic/gin"
@@ -12,6 +13,22 @@ func setupRouter() *gin.Engine {
 	// Disable Console Color
 	// gin.DisableConsoleColor()
 	r := gin.Default()
+
+	r.GET("/cookie", func(c *gin.Context) {
+		cookie, err := c.Cookie("gin_cookie")
+
+		if err != nil {
+			cookie = "NotSet"
+			c.SetCookie("gin_cookie", "test", 3600, "/", "localhost", false, true)
+		}
+
+		if cookie != "NotSet" { //if cookie exists: delete the cookie
+			c.SetCookie("gin_cookie", "test", -1, "/", "localhost", false, true)
+			fmt.Printf("Cookie deleted \n")
+		}
+
+		fmt.Printf("Cookie value: %s \n", cookie)
+	})
 
 	// Ping test
 	r.GET("/ping", func(c *gin.Context) {
